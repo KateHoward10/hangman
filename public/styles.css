@@ -19,7 +19,13 @@ input {
 
 button {
   font-family: 'Walter Turncoat', cursive;
+  font-size: 16px;
   background-color: #fff;
   border-radius: 5px;
   border: none;
+}
+
+.display-area {
+  font-size: 40px;
+  padding: 20px 0;
 }

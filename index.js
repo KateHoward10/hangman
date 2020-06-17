@@ -11,5 +11,7 @@ app.use(express.static('public'));
 var io = socket(server);
 
 io.on('connection', function(socket) {
-  console.log("Socket connected");
+  socket.on('challenge', data => {
+    io.emit('challenge', data);
+  })
 });
