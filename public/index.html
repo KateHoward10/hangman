@@ -9,19 +9,24 @@
   <link href="/styles.css" rel="stylesheet" />
 </head>
 <body>
-  <h1>Hangman</h1>
-  <form id="challenge_form">
-    <label for="challenge">Enter your word or phrase here</label>
-    <input type="text" id="challenge" />
-    <button type="submit">Submit</button>
-  </form>
-  <div class="game">
-    <div>
-      <div class="display-area"></div>
-      <div id="letters_container"></div>
+  <div id="hangman">
+    <h1>Hangman</h1>
+    <form id="challenge_form" @submit="submitChallenge($event)">
+      <label for="challenge">Enter your word or phrase here</label>
+      <input type="text" id="challenge" />
+      <button type="submit">Submit</button>
+    </form>
+    <div class="game">
+      <div>
+        <div class="display-area">{{ formattedChallenge }}</div>
+        <div id="letters_container">
+          <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
+        </div>
+      </div>
+      <div id="lives_container">Lives: {{ livesTally }}</div>
     </div>
-    <div id="lives_container"></div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
   <script src="/hangman.js"></script>
 </body>
 </html>
