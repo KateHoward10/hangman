@@ -1,5 +1,14 @@
 var socket = io.connect('http://localhost:4000');
 
+socket.on('createRoom', room => {
+  window.location.search = room;
+})
+
+socket.on('connect', () => {
+  const room = window.location.search.replace('/?', '');
+  socket.emit('join', room);
+});
+
 let currentChallenge = '';
 let lives = 10;
 
