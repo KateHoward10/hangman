@@ -12,6 +12,8 @@
   <div id="hangman">
     <div v-if="playerIndex === -1">
       <h1>Welcome to Hangman</h1>
+      <p>First, enter your username:</p>
+      <input type="text" v-model="username" placeholder="Username" />
       <p>Click here to create a new game</p>
       <button @click="createRoom">Start</button>
       <p>Or, enter the room ID and join here</p>
@@ -30,11 +32,11 @@
       <div class="game">
         <div>
           <div class="display-area">{{ formattedChallenge }}</div>
-          <div id="letters_container" v-if="playerIndex === 1">
+          <div v-if="playerIndex === 1">
             <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
           </div>
         </div>
-        <div id="lives_container">Lives: {{ livesTally }}</div>
+        <div v-if="players[1]" class="lives-container">{{ playerIndex === 0 ? `${players[1]}'s` : 'Your' }} lives: {{ livesTally }}</div>
       </div>
     </div>
   </div>

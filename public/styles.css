@@ -10,7 +10,7 @@ body {
   flex-direction: row;
 }
 
-#lives_container {
+.lives-container {
   padding: 10px;
   font-size: 24px;
 }
