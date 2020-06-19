@@ -11,6 +11,7 @@ const hangman = new Vue({
     currentChallenge: '',
     lives: 10,
     guesses: [],
+    messages: [],
     alphabet: Array.from(Array(26).keys(), i => String.fromCharCode(i + 65))
   },
   computed: {
@@ -39,18 +40,20 @@ const hangman = new Vue({
 
     socket.on('roomFull', () => {
       alert("Sorry, this room is full. Please enter a different room ID.");
-    })
+    });
     
     socket.on('challenge', challenge => {
       this.currentChallenge = challenge;
+      this.messages.push(`${this.players[0]} has sent a challenge!`);
     });
+
+    socket.on('guessMade', guess => {
+      this.guesses.push(guess);
+      if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
+      this.messages.push(`${this.players[1]} has guessed ${guess}`);
+    })
   },
   methods: {
-    createRoom: function() {
-      if (this.username) {
-        socket.emit('join', this.username);
-      }
-    },
     joinRoom: function() {
       if (this.username) {
         socket.emit('join', this.username, this.newRoomId);
@@ -60,8 +63,7 @@ const hangman = new Vue({
       socket.emit('challenge', this.newChallenge.toUpperCase());
     },
     guessLetter: function(guess) {
-      this.guesses.push(guess);
-      if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
+      socket.emit('makeGuess', guess);
     }
   }
 });

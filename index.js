@@ -30,5 +30,9 @@ io.on('connection', function(socket) {
 
   socket.on('challenge', data => {
     io.to(roomId).emit('challenge', data);
+  });
+
+  socket.on('makeGuess', guess => {
+    io.to(roomId).emit('guessMade', guess);
   })
 });

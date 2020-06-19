@@ -15,7 +15,7 @@
       <p>First, enter your username:</p>
       <input type="text" v-model="username" placeholder="Username" />
       <p>Click here to create a new game</p>
-      <button @click="createRoom">Start</button>
+      <button @click="joinRoom">Start</button>
       <p>Or, enter the room ID and join here</p>
       <form @submit.prevent="joinRoom">
         <input type="text" v-model="newRoomId" />
@@ -38,6 +38,9 @@
         </div>
         <div v-if="players[1]" class="lives-container">{{ playerIndex === 0 ? `${players[1]}'s` : 'Your' }} lives: {{ livesTally }}</div>
       </div>
+    </div>
+    <div class="messages-container">
+      <p v-for="message in messages">{{ message }}</p>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
