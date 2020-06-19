@@ -1,18 +1,12 @@
 var socket = io.connect('http://localhost:4000');
 
-socket.on('createRoom', room => {
-  window.location.search = room;
-})
-
-socket.on('connect', () => {
-  const room = window.location.search.replace('/?', '');
-  socket.emit('join', room);
-});
-
 const hangman = new Vue({
   el: '#hangman',
   data: {
-    isChallenging: false,
+    newRoomId: '',
+    newChallenge: '',
+    roomId: '',
+    playerIndex: -1,
     currentChallenge: '',
     lives: 10,
     guesses: [],
@@ -21,9 +15,7 @@ const hangman = new Vue({
   computed: {
     formattedChallenge: function() {
       return this.currentChallenge.split('').map((char, i) => {
-        if (char === ' ') {
-          return ' ';
-        } else if (this.guesses.some(guess => this.currentChallenge[i] === guess)) {
+        if (char === ' ' || this.guesses.some(guess => this.currentChallenge[i] === guess)) {
           return char;
         } else return '?';
       }).join('');
@@ -33,16 +25,25 @@ const hangman = new Vue({
     }
   },
   created() {
+    socket.on('setRoom', id => {
+      this.roomId = id;
+    });
+    
     socket.on('challenge', challenge => {
       this.currentChallenge = challenge;
     });
   },
   methods: {
-    submitChallenge: function(e) {
-      e.preventDefault();
-      const challengeInput = document.getElementById('challenge');
-      socket.emit('challenge', challengeInput.value.toUpperCase());
-      challengeInput.value = '';
+    createRoom: function() {
+      socket.emit('join');
+      this.playerIndex = 0;
+    },
+    joinRoom: function() {
+      socket.emit('join', this.newRoomId);
+      this.playerIndex = 1;
+    },
+    submitChallenge: function() {
+      socket.emit('challenge', this.newChallenge.toUpperCase());
     },
     guessLetter: function(guess) {
       this.guesses.push(guess);

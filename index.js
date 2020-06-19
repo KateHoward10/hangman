@@ -16,9 +16,7 @@ io.on('connection', function(socket) {
   socket.on('join', room => {
     roomId = room || socket.id;
     socket.join(roomId);
-    if (!room || room === '/') {
-      socket.emit('createRoom', socket.id);
-    }
+    socket.emit('setRoom', roomId);
   });
 
   socket.on('challenge', data => {

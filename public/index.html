@@ -10,23 +10,35 @@
 </head>
 <body>
   <div id="hangman">
-    <h1>Hangman</h1>
-    <form id="challenge_form" @submit="submitChallenge($event)">
-      <label for="challenge">Enter your word or phrase here</label>
-      <input type="text" id="challenge" />
-      <button type="submit">Submit</button>
-    </form>
-    <div class="game">
-      <div>
-        <div class="display-area">{{ formattedChallenge }}</div>
-        <div id="letters_container">
-          <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
+    <div v-if="playerIndex === -1">
+      <h1>Welcome to Hangman</h1>
+      <p>Click here to create a new game</p>
+      <button @click="createRoom">Start</button>
+      <p>Or, enter the room ID and join here</p>
+      <form @submit.prevent="joinRoom">
+        <input type="text" v-model="newRoomId" />
+        <button type="submit">Join</button>
+      </form>
+    </div>
+    <div v-else>
+      <p>Room ID: {{ roomId }}</p>
+      <form v-if="playerIndex === 0" @submit.prevent="submitChallenge">
+        <label for="challenge">Enter your word or phrase here</label>
+        <input type="text" v-model="newChallenge" />
+        <button type="submit">Submit</button>
+      </form>
+      <div class="game">
+        <div>
+          <div class="display-area">{{ formattedChallenge }}</div>
+          <div id="letters_container" v-if="playerIndex === 1">
+            <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
+          </div>
         </div>
+        <div id="lives_container">Lives: {{ livesTally }}</div>
       </div>
-      <div id="lives_container">Lives: {{ livesTally }}</div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="/hangman.js"></script>
 </body>
 </html>
