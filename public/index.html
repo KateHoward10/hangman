@@ -12,14 +12,10 @@
   <div id="hangman">
     <div v-if="playerIndex === -1">
       <h1>Welcome to Hangman</h1>
-      <p>First, enter your username:</p>
-      <input type="text" v-model="username" placeholder="Username" />
-      <p>Click here to create a new game</p>
-      <button @click="joinRoom">Start</button>
-      <p>Or, enter the room ID and join here</p>
       <form @submit.prevent="joinRoom">
-        <input type="text" v-model="newRoomId" />
-        <button type="submit">Join</button>
+        <p>Please enter your username:</p>
+        <input type="text" v-model="username" placeholder="Username" />
+        <button type="submit">{{ roomId ? 'Join' : 'Start new' }} game</button>
       </form>
     </div>
     <div v-else>

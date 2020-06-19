@@ -4,9 +4,8 @@ const hangman = new Vue({
   el: '#hangman',
   data: {
     username: null,
-    newRoomId: '',
+    roomId: null,
     newChallenge: '',
-    roomId: '',
     players: [],
     currentChallenge: '',
     lives: 10,
@@ -30,8 +29,13 @@ const hangman = new Vue({
     }
   },
   created() {
+    this.roomId = window.location.search.replace('?', '');
+
     socket.on('setRoom', id => {
       this.roomId = id;
+      if (id !== window.location.search.replace('?', '')) {
+        window.history.pushState({}, null, '?' + id);
+      }
     });
 
     socket.on('updatePlayers', newPlayers => {
@@ -39,7 +43,7 @@ const hangman = new Vue({
     });
 
     socket.on('roomFull', () => {
-      alert("Sorry, this room is full. Please enter a different room ID.");
+      alert("Sorry, this room is full.");
     });
     
     socket.on('challenge', challenge => {
@@ -56,7 +60,7 @@ const hangman = new Vue({
   methods: {
     joinRoom: function() {
       if (this.username) {
-        socket.emit('join', this.username, this.newRoomId);
+        socket.emit('join', this.username, this.roomId);
       }
     },
     submitChallenge: function() {
