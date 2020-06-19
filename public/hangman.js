@@ -5,6 +5,7 @@ const hangman = new Vue({
   data: {
     username: null,
     roomId: null,
+    result: null,
     newChallenge: '',
     players: [],
     currentChallenge: '',
@@ -55,6 +56,13 @@ const hangman = new Vue({
       this.guesses.push(guess);
       if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
       this.messages.push(`${this.players[1]} has guessed ${guess}`);
+      if (this.lives === 0) {
+        this.result = 'loss';
+        this.messages.push(`${this.players[1]} loses!`);
+      } else if (this.currentChallenge.replace(' ', '').split('').every(letter => this.guesses.indexOf(letter) > -1)) {
+        this.result = 'win';
+        this.messages.push(`${this.players[1]} wins!`);
+      }
     })
   },
   methods: {
