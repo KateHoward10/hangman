@@ -8,6 +8,7 @@ const hangman = new Vue({
     result: null,
     newChallenge: '',
     players: [],
+    guesser: null,
     currentChallenge: '',
     lives: 10,
     guesses: [],
@@ -41,6 +42,7 @@ const hangman = new Vue({
 
     socket.on('updatePlayers', newPlayers => {
       this.players = newPlayers;
+      if (this.players.length === 2) this.guesser = 1;
     });
 
     socket.on('roomFull', () => {
@@ -49,19 +51,19 @@ const hangman = new Vue({
     
     socket.on('challenge', challenge => {
       this.currentChallenge = challenge;
-      this.messages.push(`${this.players[0]} has sent a challenge!`);
+      this.messages.push(`${this.players[Number(!this.guesser)]} has sent a challenge!`);
     });
 
     socket.on('guessMade', guess => {
       this.guesses.push(guess);
       if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
-      this.messages.push(`${this.players[1]} has guessed ${guess}`);
+      this.messages.push(`${this.players[this.guesser]} has guessed ${guess}`);
       if (this.lives === 0) {
         this.result = 'loss';
-        this.messages.push(`${this.players[1]} loses!`);
+        this.messages.push(`${this.players[this.guesser]} loses!`);
       } else if (this.currentChallenge.replace(' ', '').split('').every(letter => this.guesses.indexOf(letter) > -1)) {
         this.result = 'win';
-        this.messages.push(`${this.players[1]} wins!`);
+        this.messages.push(`${this.players[this.guesser]} wins!`);
       }
     })
   },

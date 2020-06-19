@@ -20,7 +20,7 @@
     </div>
     <div v-else>
       <p>Room ID: {{ roomId }}</p>
-      <form v-if="playerIndex === 0" @submit.prevent="submitChallenge">
+      <form v-if="playerIndex !== guesser" @submit.prevent="submitChallenge">
         <label for="challenge">Enter your word or phrase here</label>
         <input type="text" v-model="newChallenge" />
         <button type="submit">Submit</button>
@@ -28,11 +28,11 @@
       <div class="game">
         <div>
           <div class="display-area">{{ formattedChallenge }}</div>
-          <div v-if="playerIndex === 1">
+          <div v-if="playerIndex === guesser">
             <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
           </div>
         </div>
-        <div v-if="players[1]" class="lives-container">{{ playerIndex === 0 ? `${players[1]}'s` : 'Your' }} lives: {{ livesTally }}</div>
+        <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
       </div>
     </div>
     <div class="messages-container">
