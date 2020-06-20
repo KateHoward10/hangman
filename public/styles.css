@@ -45,16 +45,19 @@ button:hover {
   padding: 20px 0;
 }
 
-.messages-container {
+.message-section {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 20vh;
-  overflow-y: scroll;
   border-top: 2px solid #fff;
+}
+
+.messages-container {
+  height: 15vh;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 .messages-list {
@@ -62,4 +65,14 @@ button:hover {
   margin: 0;
   padding-bottom: 30px;
   flex: 1;
+}
+
+.message-form {
+  width: 100%;
+  padding: 2px;
+  display: flex;
+}
+
+.message-form input {
+  width: 90%;
 }

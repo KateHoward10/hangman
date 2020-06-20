@@ -13,6 +13,7 @@ var io = socket(server);
 let roomId;
 let rooms = {};
 let players = roomId ? rooms[roomId] : [];
+let name;
 
 io.on('connection', function(socket) {
   socket.on('join', (username, room) => {
@@ -20,6 +21,7 @@ io.on('connection', function(socket) {
       roomId = room || socket.id;
       socket.join(roomId);
       socket.emit('setRoom', roomId);
+      name = username;
       players = [...players, username];
       rooms[roomId] = players;
       io.to(roomId).emit('updatePlayers', players);
@@ -34,5 +36,9 @@ io.on('connection', function(socket) {
 
   socket.on('makeGuess', guess => {
     io.to(roomId).emit('guessMade', guess);
-  })
+  });
+
+  socket.on('message', (message, name) => {
+    socket.broadcast.to(roomId).emit('message', message, name);
+  });
 });

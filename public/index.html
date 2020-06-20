@@ -35,10 +35,16 @@
         <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
       </div>
     </div>
-    <div class="messages-container">
-      <ul class="messages-list">
-        <li v-for="message in messages">{{ message }}</li>
-      </ul>
+    <div class="message-section">
+      <div class="messages-container">
+        <ul class="messages-list">
+          <li v-for="message in messages">{{ message }}</li>
+        </ul>
+      </div>
+      <form @submit.prevent="sendMessage" class="message-form">
+        <input type="text" v-model="message" />
+        <button type="submit">Send</button>
+      </form>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

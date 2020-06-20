@@ -13,6 +13,7 @@ const hangman = new Vue({
     lives: 10,
     guesses: [],
     messages: [],
+    message: null,
     alphabet: Array.from(Array(26).keys(), i => String.fromCharCode(i + 65))
   },
   computed: {
@@ -66,7 +67,11 @@ const hangman = new Vue({
         this.result = 'win';
         this.addMessage(`${this.players[this.guesser]} wins!`);
       }
-    })
+    });
+
+    socket.on('message', (message, name) => {
+      this.addMessage(`${name}: ${message}`);
+    });
   },
   methods: {
     joinRoom: function() {
@@ -84,6 +89,11 @@ const hangman = new Vue({
       this.messages.push(message);
       const messagesContainer = document.querySelector('.messages-container');
       messagesContainer.scroll({ top: messagesContainer.scrollHeight, left: 0, behavior: 'smooth' });
+    },
+    sendMessage: function() {
+      this.addMessage(`You: ${this.message}`);
+      socket.emit('message', this.message, this.username);
+      this.message = null;
     }
   }
 });
