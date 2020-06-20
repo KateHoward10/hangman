@@ -41,4 +41,8 @@ io.on('connection', function(socket) {
   socket.on('message', (message, name) => {
     socket.broadcast.to(roomId).emit('message', message, name);
   });
+
+  socket.on('newGame', () => {
+    socket.broadcast.to(roomId).emit('newGame');
+  })
 });

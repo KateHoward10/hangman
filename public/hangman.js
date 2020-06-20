@@ -61,7 +61,7 @@ const hangman = new Vue({
       if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
       this.addMessage(`${this.playerIndex === this.guesser ? 'You have' : `${this.players[this.guesser]} has`} guessed ${guess}`);
       if (this.lives === 0) {
-        this.result = 'loss';
+        this.result = 'lose';
         this.addMessage(`${this.players[this.guesser]} loses!`);
       } else if (this.currentChallenge.replace(' ', '').split('').every(letter => this.guesses.indexOf(letter) > -1)) {
         this.result = 'win';
@@ -71,6 +71,10 @@ const hangman = new Vue({
 
     socket.on('message', (message, name) => {
       this.addMessage(`${name}: ${message}`);
+    });
+
+    socket.on('newGame', () => {
+      this.newGame();
     });
   },
   methods: {
@@ -94,6 +98,17 @@ const hangman = new Vue({
       this.addMessage(`You: ${this.message}`);
       socket.emit('message', this.message, this.username);
       this.message = null;
+    },
+    newGame: function() {
+      this.guesser = Number(!this.guesser);
+      this.result = null;
+      this.currentChallenge = '';
+      this.lives = 10;
+      this.guesses = [];
+    },
+    switchRoles: function() {
+      this.newGame();
+      socket.emit('newGame');
     }
   }
 });
