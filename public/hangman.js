@@ -43,6 +43,7 @@ const hangman = new Vue({
     socket.on('updatePlayers', newPlayers => {
       this.players = newPlayers;
       if (this.players.length === 2) this.guesser = 1;
+      this.addMessage(`${this.playerIndex === this.players.length - 1 ? 'You have' : `${this.players[this.players.length - 1]} has`} joined the game`);
     });
 
     socket.on('roomFull', () => {
@@ -51,19 +52,19 @@ const hangman = new Vue({
     
     socket.on('challenge', challenge => {
       this.currentChallenge = challenge;
-      this.messages.push(`${this.players[Number(!this.guesser)]} has sent a challenge!`);
+      this.addMessage(`${this.playerIndex !== this.guesser ? 'You have' : `${this.players[Number(!this.guesser)]} has`} sent a challenge!`);
     });
 
     socket.on('guessMade', guess => {
       this.guesses.push(guess);
       if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
-      this.messages.push(`${this.players[this.guesser]} has guessed ${guess}`);
+      this.addMessage(`${this.playerIndex === this.guesser ? 'You have' : `${this.players[this.guesser]} has`} guessed ${guess}`);
       if (this.lives === 0) {
         this.result = 'loss';
-        this.messages.push(`${this.players[this.guesser]} loses!`);
+        this.addMessage(`${this.players[this.guesser]} loses!`);
       } else if (this.currentChallenge.replace(' ', '').split('').every(letter => this.guesses.indexOf(letter) > -1)) {
         this.result = 'win';
-        this.messages.push(`${this.players[this.guesser]} wins!`);
+        this.addMessage(`${this.players[this.guesser]} wins!`);
       }
     })
   },
@@ -78,6 +79,11 @@ const hangman = new Vue({
     },
     guessLetter: function(guess) {
       socket.emit('makeGuess', guess);
+    },
+    addMessage: function(message) {
+      this.messages.push(message);
+      const messagesContainer = document.querySelector('.messages-container');
+      messagesContainer.scroll({ top: messagesContainer.scrollHeight, left: 0, behavior: 'smooth' });
     }
   }
 });
