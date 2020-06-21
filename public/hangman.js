@@ -88,6 +88,8 @@ const hangman = new Vue({
     joinRoom: function() {
       if (this.username) {
         socket.emit('join', this.username, this.roomId);
+      } else {
+        alert("Please enter a username");
       }
     },
     submitChallenge: function() {
