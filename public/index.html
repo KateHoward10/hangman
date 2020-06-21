@@ -31,8 +31,8 @@
         <button type="submit">Submit</button>
         <p><small>Maximum length 20, letters and spaces only</small></p>
       </form>
-      <div v-if="playerIndex === guesser && !currentChallenge">
-        <p>Waiting for {{ players[Number(!guesser)] }} to send a challenge...</p>
+      <div v-if="playerIndex === guesser">
+        <p v-if="!currentChallenge">Waiting for {{ players[Number(!guesser)] }} to send a challenge...</p>
         <p>Letters of the alphabet will appear below. Select a letter to guess if it's in the challenge. If you guess wrong, you will lose a life!</p>
       </div>
       <div v-if="currentChallenge" class="game">
