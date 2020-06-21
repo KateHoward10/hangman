@@ -5,14 +5,12 @@ body {
   padding: 10px;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
-}
-
 .lives-container {
   padding: 10px;
   font-size: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 label {
@@ -42,7 +40,9 @@ button:hover {
 
 .display-area {
   font-size: 40px;
-  padding: 20px 0;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #fff;
 }
 
 .message-section {

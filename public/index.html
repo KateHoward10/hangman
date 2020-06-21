@@ -34,13 +34,14 @@
         <p>Letters of the alphabet will appear below. Select a letter to guess if it's in the challenge. If you guess wrong, you will lose a life!</p>
       </div>
       <div v-if="currentChallenge" class="game">
+        <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
         <div>
+          <span>Challenge:</span>
           <div class="display-area">{{ formattedChallenge }}</div>
           <div v-if="playerIndex === guesser">
             <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
           </div>
         </div>
-        <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
       </div>
       <div class="message-section">
         <div class="messages-container">
