@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:4000');
+var socket = io.connect();
 
 const hangman = new Vue({
   el: '#hangman',
