@@ -51,7 +51,7 @@ const hangman = new Vue({
     });
 
     socket.on('roomFull', () => {
-      alert("Sorry, this room is full.");
+      alert('Sorry, this room is full.');
     });
     
     socket.on('challenge', challenge => {
@@ -83,7 +83,7 @@ const hangman = new Vue({
   methods: {
     copyURL: function(e) {
       e.target.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
     },
     joinRoom: function() {
       if (this.username) {
@@ -91,7 +91,13 @@ const hangman = new Vue({
       }
     },
     submitChallenge: function() {
-      socket.emit('challenge', this.newChallenge.toUpperCase());
+      if (this.newChallenge.length > 20) {
+        alert('Maximum 20 characters, please!');
+      } else if (!this.newChallenge.match(/^[a-zA-Z ]+$/)) {
+        alert('Letters and spaces only, please!');
+      } else {
+        socket.emit('challenge', this.newChallenge.trim().toUpperCase());
+      }
     },
     guessLetter: function(guess) {
       socket.emit('makeGuess', guess);

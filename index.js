@@ -17,7 +17,7 @@ let name;
 
 io.on('connection', function(socket) {
   socket.on('join', (username, room) => {
-    if (!room || players.length < 2) {
+    if (!rooms[room] || rooms[room].length < 2) {
       roomId = room || socket.id;
       socket.join(roomId);
       socket.emit('setRoom', roomId);
