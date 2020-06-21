@@ -1,15 +1,15 @@
-var express = require('express');
-var socket = require('socket.io');
-var port = process.env.PORT || 4000;
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const path = require('path');
+const port = process.env.PORT || 4000;
 
-var app = express();
-var server = app.listen(port, function () {
-  console.log('Listening on port 4000');
+app.use(express.static(path.join(__dirname, 'public')));
+
+server.listen(port, function () {
+  console.log(`Listening on port ${port}`);
 });
-
-app.use(express.static('public'));
-
-var io = socket(server);
 
 let roomId;
 let rooms = {};
