@@ -65,10 +65,10 @@ const hangman = new Vue({
       this.addMessage(`${this.playerIndex === this.guesser ? 'You have' : `${this.players[this.guesser]} has`} guessed ${guess}`);
       if (this.lives === 0) {
         this.result = 'lose';
-        this.addMessage(`${this.players[this.guesser]} loses!`);
+        this.addMessage(this.playerIndex === this.guesser ? `You lose! The answer was ${this.currentChallenge}` : `${this.players[this.guesser]} loses!`);
       } else if (this.currentChallenge.replace(' ', '').split('').every(letter => this.guesses.indexOf(letter) > -1)) {
         this.result = 'win';
-        this.addMessage(`${this.players[this.guesser]} wins!`);
+        this.addMessage(this.playerIndex === this.guesser ? 'You win!' : `${this.players[this.guesser]} wins!`);
       }
     });
 
