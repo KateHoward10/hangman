@@ -40,7 +40,7 @@
           <span>Challenge:</span>
           <div class="display-area">{{ formattedChallenge }}</div>
           <div v-if="playerIndex === guesser">
-            <button v-for="letter in alphabet" @click="guessLetter(letter)">{{ letter }}</button>
+            <button v-for="letter in alphabet" @click="guessLetter(letter)" :disabled="guesses.indexOf(letter) > -1">{{ letter }}</button>
           </div>
         </div>
       </div>

@@ -100,7 +100,9 @@ const hangman = new Vue({
       }
     },
     guessLetter: function(guess) {
-      socket.emit('makeGuess', guess);
+      if (this.guesses.indexOf(guess) === -1) {
+        socket.emit('makeGuess', guess);
+      }
     },
     addMessage: function(message) {
       this.messages.push(message);
