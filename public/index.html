@@ -19,7 +19,11 @@
       </form>
     </div>
     <div v-else>
-      <p v-if="players.length === 1">Send the URL to a friend so they can join your game...</p>
+      <div v-if="players.length === 1">
+        <p>Send the URL to a friend so they can join your game...</p>
+        <label for="url">Click URL to copy</label>
+        <input @click="copyURL($event)" v-model="url" readonly />
+      </div>
       <form v-if="players.length === 2 && playerIndex !== guesser && !currentChallenge" @submit.prevent="submitChallenge">
         <label for="challenge">Enter a word or phrase for {{ players[guesser] }} to guess</label>
         <input type="text" v-model="newChallenge" />

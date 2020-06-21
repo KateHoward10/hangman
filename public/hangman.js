@@ -17,6 +17,9 @@ const hangman = new Vue({
     alphabet: Array.from(Array(26).keys(), i => String.fromCharCode(i + 65))
   },
   computed: {
+    url: function() {
+      return window.location.href;
+    },
     playerIndex: function() {
       return this.players.indexOf(this.username);
     },
@@ -78,6 +81,10 @@ const hangman = new Vue({
     });
   },
   methods: {
+    copyURL: function(e) {
+      e.target.select();
+      document.execCommand("copy");
+    },
     joinRoom: function() {
       if (this.username) {
         socket.emit('join', this.username, this.roomId);
@@ -92,7 +99,9 @@ const hangman = new Vue({
     addMessage: function(message) {
       this.messages.push(message);
       const messagesContainer = document.querySelector('.messages-container');
-      messagesContainer.scroll({ top: messagesContainer.scrollHeight, left: 0, behavior: 'smooth' });
+      if (messagesContainer) {
+        messagesContainer.scroll({ top: messagesContainer.scrollHeight, left: 0, behavior: 'smooth' });
+      }
     },
     sendMessage: function() {
       this.addMessage(`You: ${this.message}`);
