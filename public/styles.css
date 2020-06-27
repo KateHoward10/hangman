@@ -8,6 +8,7 @@ body {
 #hangman {
   max-width: 600px;
   margin: auto;
+  position: relative;
 }
 
 .lives-container {
@@ -52,10 +53,10 @@ button:hover {
 
 .message-section {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 5px;
   width: 100%;
-  border-top: 2px solid #fff;
+  max-width: 600px;
+  margin: auto;
 }
 
 .messages-container {
@@ -63,6 +64,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  border: 1px solid #fff;
 }
 
 .messages-list {

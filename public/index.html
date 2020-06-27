@@ -45,17 +45,17 @@
           </div>
         </div>
       </div>
-      <div class="message-section">
-        <div class="messages-container">
-          <ul class="messages-list">
-            <li v-for="message in messages">{{ message }}</li>
-          </ul>
-        </div>
-        <form @submit.prevent="sendMessage" class="message-form">
-          <input type="text" v-model="message" />
-          <button type="submit">Send</button>
-        </form>
+    </div>
+    <div class="message-section">
+      <div class="messages-container">
+        <ul class="messages-list">
+          <li v-for="message in messages">{{ message }}</li>
+        </ul>
       </div>
+      <form @submit.prevent="sendMessage" class="message-form">
+        <input type="text" v-model="message" placeholder="Write a message..." />
+        <button type="submit">Send</button>
+      </form>
     </div>
     <div v-if="result" class="overlay">
       <div class="modal">
