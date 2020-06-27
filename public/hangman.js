@@ -62,7 +62,7 @@ const hangman = new Vue({
     socket.on('guessMade', guess => {
       this.guesses.push(guess);
       if (this.currentChallenge.indexOf(guess) === -1) this.lives--;
-      this.addMessage(`${this.playerIndex === this.guesser ? 'You have' : `${this.players[this.guesser]} has`} guessed ${guess}`);
+      this.addMessage(`${this.playerIndex === this.guesser ? 'You have' : `${this.players[this.guesser]} has`} guessed ${guess} ${this.currentChallenge.indexOf(guess) > -1 ? '✓' : '✗'}`);
       if (this.lives === 0) {
         this.result = 'lose';
         this.addMessage(this.playerIndex === this.guesser ? `You lose! The answer was ${this.currentChallenge}` : `${this.players[this.guesser]} loses!`);
