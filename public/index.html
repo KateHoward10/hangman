@@ -11,42 +11,44 @@
 </head>
 <body>
   <div id="hangman">
-    <div v-if="playerIndex === -1">
-      <h1>Welcome to Hangman</h1>
-      <form @submit.prevent="joinRoom">
-        <p>Please enter your username:</p>
-        <input type="text" v-model="username" placeholder="Username" />
-        <button type="submit">{{ roomId ? 'Join' : 'Start new' }} game</button>
-      </form>
-    </div>
-    <div v-else>
-      <div v-if="players.length === 1">
-        <p>Send the URL to a friend so they can join your game...</p>
-        <label for="url" id="url">Click URL to copy</label>
-        <input @focus="copyURL($event)" v-model="url" readonly />
+    <div class="game">
+      <div v-if="playerIndex === -1">
+        <h1>Welcome to Hangman</h1>
+        <form @submit.prevent="joinRoom">
+          <p>Please enter your username:</p>
+          <input type="text" v-model="username" placeholder="Username" />
+          <button type="submit">{{ roomId ? 'Join' : 'Start new' }} game</button>
+        </form>
       </div>
-      <form v-if="players.length === 2 && playerIndex !== guesser && !currentChallenge" @submit.prevent="submitChallenge">
-        <label for="newChallenge">Enter a word or phrase for {{ players[guesser] }} to guess</label>
-        <input type="text" v-model="newChallenge" id="newChallenge" />
-        <button type="submit">Submit</button>
-        <p><small>Maximum length 20, letters and spaces only</small></p>
-      </form>
-      <div v-if="playerIndex === guesser">
-        <p v-if="!currentChallenge">Waiting for {{ players[Number(!guesser)] }} to send a challenge...</p>
-        <p>Letters of the alphabet will appear below. Select a letter to guess if it's in the challenge. If you guess wrong, you will lose a life!</p>
-      </div>
-      <div v-if="currentChallenge" class="game">
-        <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
-        <div>
-          <span>Challenge:</span>
-          <div class="display-area">{{ formattedChallenge }}</div>
-          <div v-if="playerIndex === guesser">
-            <button v-for="letter in alphabet" @click="guessLetter(letter)" :disabled="guesses.indexOf(letter) > -1">{{ letter }}</button>
+      <div v-else>
+        <div v-if="players.length === 1">
+          <p>Send the URL to a friend so they can join your game...</p>
+          <label for="url" id="url">Click URL to copy</label>
+          <input @focus="copyURL($event)" v-model="url" readonly />
+        </div>
+        <form v-if="players.length === 2 && playerIndex !== guesser && !currentChallenge" @submit.prevent="submitChallenge">
+          <label for="newChallenge">Enter a word or phrase for {{ players[guesser] }} to guess</label>
+          <input type="text" v-model="newChallenge" id="newChallenge" />
+          <button type="submit">Submit</button>
+          <p><small>Maximum length 20, letters and spaces only</small></p>
+        </form>
+        <div v-if="playerIndex === guesser">
+          <p v-if="!currentChallenge">Waiting for {{ players[Number(!guesser)] }} to send a challenge...</p>
+          <p>Letters of the alphabet will appear below. Select a letter to guess if it's in the challenge. If you guess wrong, you will lose a life!</p>
+        </div>
+        <div v-if="currentChallenge" class="game">
+          <div v-if="players.length === 2" class="lives-container">{{ playerIndex !== guesser ? `${players[guesser]}'s` : 'Your' }} lives: {{ livesTally }}</div>
+          <div>
+            <span>Challenge:</span>
+            <div class="display-area">{{ formattedChallenge }}</div>
+            <div v-if="playerIndex === guesser" class="letters-container">
+              <button v-for="letter in alphabet" @click="guessLetter(letter)" :disabled="guesses.indexOf(letter) > -1">{{ letter }}</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="message-section">
+    <div v-if="playerIndex > -1" class="message-section">
       <div class="messages-container">
         <ul class="messages-list">
           <li v-for="message in messages">{{ message }}</li>

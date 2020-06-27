@@ -2,13 +2,17 @@ body {
   background-color: #222;
   color: #fff;
   font-family: 'Walter Turncoat', cursive;
-  padding: 10px;
+  margin: 0;
 }
 
 #hangman {
+  position: relative;
   max-width: 600px;
   margin: auto;
-  position: relative;
+}
+
+.game {
+  padding: 10px;
 }
 
 .lives-container {
@@ -45,10 +49,20 @@ button:hover {
 }
 
 .display-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 40px;
   padding: 10px;
   margin-bottom: 10px;
   border: 2px solid #fff;
+}
+
+.letters-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding: 0 30px;
 }
 
 .message-section {
@@ -75,8 +89,8 @@ button:hover {
 }
 
 .message-form {
-  width: 100%;
-  padding: 2px;
+  width: 95%;
+  padding: 5px;
   display: flex;
 }
 
