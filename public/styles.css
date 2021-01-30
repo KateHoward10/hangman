@@ -6,7 +6,6 @@ body {
 }
 
 #hangman {
-  position: relative;
   max-width: 600px;
   margin: auto;
 }
