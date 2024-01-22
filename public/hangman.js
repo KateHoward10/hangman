@@ -86,7 +86,9 @@ const hangman = new Vue({
       document.execCommand('copy');
     },
     joinRoom: function() {
-      if (this.username) {
+      if (this.username && this.players.includes(this.username)) {
+        alert("That username has already been taken!");
+      } else if (this.username) {
         socket.emit('join', this.username, this.roomId);
       } else {
         alert("Please enter a username");
